@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Learn how Stratify helps you plan smarter. One goal at a time. One week at a time. Tactical planning for the focused mind."/>
+
+<!-- Standard Favicon -->
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+<!-- PNG Icons (for browsers that prefer PNG) -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+
+<!-- Web Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stratifyplan.com/">
+<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
+<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
+<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stratifyplan.com/">
+<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
+<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
+<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stratifyplan.com/">
+<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
+<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
+<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stratifyplan.com/">
+<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
+<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
+<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
+
+  <title>About Stratify – Tactical Planning, Simplified</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    h1 {
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .content {
+      max-width: 800px;
+      width: 100%;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #111;
+      margin-top: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+
+    a.button {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: #4F46E5;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    a.button:hover {
+      background: #4338CA;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.875rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="{{ url_for('static', filename='stratify-logo.png') }}" alt="Stratify - Strategic To-Do Planning" style="max-width: 300px; width: 100%; height: auto;" />
+    <h1>Generate Strategic To-Do Lists in Seconds</h1>
+  </header>
+
+  <div class="content">
+    <h2>What is Stratify?</h2>
+    <p><strong>Stratify</strong> is a laser-focused planning tool for people who want less clutter, more clarity, and actual progress. We don’t believe in bloated productivity apps with endless menus and distractions.</p>
+
+    <p>Stratify helps you break down your goals into crisp, actionable steps—either as a focused daily plan or a strategic weekly layout. You get a printable, easy-to-follow checklist without fluff, so you can move fast and execute with precision.</p>
+
+    <h2>Two Apps. One Purpose.</h2>
+    <p><strong>Stratify Daily</strong> takes one goal and turns it into an immediate action plan. Just type your goal, click generate, and get a task-focused sheet you can print and use instantly.</p>
+
+    <p><strong>Stratify Weekly</strong> zooms out and lets you structure your entire week around a bigger goal. It breaks your vision into 3–5 objectives, then maps those to specific days with clear daily tasks.</p>
+
+    <h2>Why Stratify?</h2>
+    <ul>
+      <li>🧠 Simple, intuitive interface</li>
+      <li>✍️ AI-generated plans tailored to your input</li>
+      <li>🖨️ Instant print or Word export</li>
+      <li>📆 No signups, no accounts, just strategy</li>
+    </ul>
+
+    <a href="https://stratifyplan.com/daily" class="button">Try Stratify Daily</a>
+    <a href="https://stratifyplan.com/" class="button" style="margin-left: 1rem;">Try Stratify Weekly</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Stratify · Built by Matt Livingston
+  </footer>
+
+</body>
+</html>

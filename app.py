@@ -35,6 +35,14 @@ def home():
 def daily():
     return render_template("daily.html")
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
 @app.route("/generate_daily", methods=["POST"])
 def generate_daily():
     data = request.json
