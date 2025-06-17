@@ -158,10 +158,6 @@
   text-decoration: underline;
   color: #4c1d95;
 }
-.affiliate-box.visible {
-  display: block;
-}
-
 
   </style>
 </head>
@@ -316,56 +312,11 @@
     i++;
   }
 
-  const bottomBox = document.getElementById("affiliate-bottom");
-
-const bottomSuggestions = [
-  {
-    text: "🐸 <strong>Eat That Frog</strong> – Start your day with the hardest task. It sets the tone.",
-    url: "https://www.amazon.com/dp/162656941X?tag=stratifyplan-20"
-  },
-  {
-    text: "📘 <strong>Atomic Habits</strong> – Build consistency around the plan you just created.",
-    url: "https://amzn.to/4l9mrQj"
-  },
-  {
-    text: "🧠 <strong>Getting Things Done</strong> – Master your task system and reduce friction.",
-    url: "https://amzn.to/3HE6WBA"
-  },
-  {
-    text: "🎧 <strong>Sony WH-1000XM4</strong> – Noise cancelling focus for executing your priorities.",
-    url: "https://amzn.to/45tyIui"
-  },
-  {
-    text: "🔇 <strong>Anker P30i Earbuds</strong> – Budget-friendly audio armor for deep work.",
-    url: "https://www.amazon.com/dp/B0CRTYZG5C?tag=stratifyplan-20"
-  },
-  {
-    text: "🧲 <strong>Magnetic Dry Erase Board</strong> – Stick today’s plan somewhere you’ll see it.",
-    url: "https://www.amazon.com/dp/B07HF9WPMF?tag=stratifyplan-20"
-  },
-  {
-    text: "📅 <strong>Blue Sky Academic Planner</strong> – Keep your momentum going all week.",
-    url: "https://amzn.to/409UjUW"
+  function showAffiliateBox() {
+    affiliateBox.style.display = "block";
+    rotateSuggestion(); // Show first suggestion immediately
+    setInterval(rotateSuggestion, 15000); // Rotate every 15s
   }
-];
-
-let b = 0;
-function rotateBottom() {
-  const s = bottomSuggestions[b % bottomSuggestions.length];
-  bottomBox.innerHTML = `<p><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.text}</a></p>`;
-  b++;
-}
-
-
-function showAffiliateBox() {
-  affiliateBox.classList.add("visible");
-  bottomBox.classList.add("visible");
-  rotateSuggestion();  // top box
-  rotateBottom();      // bottom box
-  setInterval(rotateSuggestion, 15000);
-  setInterval(rotateBottom, 15000);
-}
-
 
   // Call after plan is generated
   async function generatePlan() {
