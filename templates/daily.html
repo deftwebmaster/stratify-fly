@@ -138,6 +138,26 @@
         box-shadow: none;
       }
     }
+.affiliate-box {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #eef2ff;
+  border-left: 4px solid #4f46e5;
+  font-size: 0.95rem;
+  font-family: system-ui, sans-serif;
+  transition: all 0.3s ease;
+  max-width: 700px;
+}
+.affiliate-box a {
+  text-decoration: none;
+  color: #1e1b4b;
+  font-weight: 600;
+}
+.affiliate-box a:hover {
+  text-decoration: underline;
+  color: #4c1d95;
+}
+
   </style>
 </head>
 <body>
@@ -168,6 +188,8 @@
   </form>
 
   <div id="preview" style="display: none;"></div>
+
+  <div id="affiliate-spot" class="affiliate-box" style="display: none;"></div>
 
   <footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
   &copy; 2025 Stratify &middot; <strong><a href="https://stratifyplan.com/daily" style="text-decoration: none; color: #555;">Daily Planner</a></strong> &middot; <a href="https://stratifyplan.com/about" style="text-decoration: none; color: #555;">About</a> &middot; <a href="https://stratifyplan.com/privacy" style="text-decoration: none; color: #555;">Privacy</a>
@@ -247,6 +269,89 @@
 
     printBtn.addEventListener("click", () => window.print());
     tryAgainBtn.addEventListener("click", () => generatePlan());
+
+  const affiliateBox = document.getElementById("affiliate-spot");
+
+  const suggestions = [
+    {
+      text: "📘 <strong>Atomic Habits</strong> – Build better habits one step at a time with this ultra-practical system by James Clear.",
+      url: "https://amzn.to/4l9mrQj"
+    },
+    {
+      text: "🧠 <strong>Getting Things Done</strong> – David Allen’s timeless system for clearing your mind and organizing anything.",
+      url: "https://amzn.to/3HE6WBA"
+    },
+    {
+      text: "🐸 <strong>Eat That Frog</strong> – Conquer procrastination by tackling your hardest task first. Simple, brutal, effective.",
+      url: "https://www.amazon.com/dp/162656941X?tag=stratifyplan-20"
+    },
+    {
+      text: "📅 <strong>Blue Sky Academic Planner</strong> – Weekly + monthly pages, minimalist design. Plan your goals on paper like a boss.",
+      url: "https://amzn.to/409UjUW"
+    },
+    {
+      text: "🧲 <strong>Magnetic Dry Erase Board</strong> – Stick this weekly board to your fridge or wall and visualize your entire week at a glance.",
+      url: "https://www.amazon.com/dp/B07HF9WPMF?tag=stratifyplan-20"
+    },
+    {
+      text: "🎧 <strong>Sony WH-1000XM4</strong> – Best-in-class noise cancelling headphones for deep work and pure focus.",
+      url: "https://amzn.to/45tyIui"
+    },
+    {
+      text: "🔇 <strong>Anker P30i Earbuds</strong> – Affordable noise-cancelling earbuds that punch way above their price.",
+      url: "https://www.amazon.com/dp/B0CRTYZG5C?tag=stratifyplan-20"
+    }
+  ];
+
+  let i = 0;
+  function rotateSuggestion() {
+    const s = suggestions[i % suggestions.length];
+    affiliateBox.innerHTML = `<p><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.text}</a></p>`;
+    i++;
+  }
+
+  function showAffiliateBox() {
+    affiliateBox.style.display = "block";
+    rotateSuggestion(); // Show first suggestion immediately
+    setInterval(rotateSuggestion, 15000); // Rotate every 15s
+  }
+
+  // Call after plan is generated
+  async function generatePlan() {
+    const goal = input.value.trim();
+    const website = honeypot.value.trim();
+    if (!goal) return;
+
+    preview.style.display = "block";
+    preview.textContent = "Generating plan...";
+
+    const res = await fetch("/generate_weekly", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ goal, website })
+    });
+
+    const data = await res.json();
+
+    let output = `🎯 Weekly Goal\n\n${data.goal}\n`;
+    data.weekly_plan.forEach(day => {
+      output += `\n${day.day} – ${day.objective}\n`;
+      day.tasks.forEach(task => {
+        output += `☐ ${task}\n`;
+      });
+      output += "——————\n";
+    });
+    output += `\n💬 Affirmation of the Week\n\n${data.affirmation}\n`;
+    output += "Built by StratifyPlan.com – The AI Planner That Doesn’t Flinch.";
+
+    preview.textContent = output;
+    downloadBtn.style.display = "inline-block";
+    printBtn.style.display = "inline-block";
+    tryAgainBtn.style.display = "inline-block";
+
+    showAffiliateBox(); // Show and start rotation after plan is ready
+  }
+
 </script>
 
 </body>
