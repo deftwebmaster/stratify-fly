@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Stratify turns your big goals into a 7-day strategic plan. Get clear objectives mapped to each day—organized, printable, and execution-ready.">
-
+<meta name="description" content="Stratify turns one goal into a ruthless weekly strategy. Get clear objectives mapped to each day—ready to print, use, and conquer.">
 <!-- Standard Favicon -->
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
 
@@ -44,7 +43,7 @@
 <meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
 
 
-  <title>Stratify Weekly To-Do List Planner</title>
+  <title>Dominate Your Week – Free AI-Powered Planner by Stratify</title>
   <style>
     body {
       margin: 0;
@@ -161,6 +160,12 @@
       <button id="print-btn" type="button" style="display: none;">Print</button>
       <button id="try-again-btn" type="button" style="display: none;">Try Again</button>
     </div>
+
+<div style="position: absolute; left: -9999px;">
+  <label for="website">Leave this field empty</label>
+  <input type="text" name="website" id="website" autocomplete="off">
+</div>
+
   </form>
 
   <div id="preview" style="display: none;"></div>
@@ -169,9 +174,10 @@
   &copy; 2025 Stratify &middot; <strong><a href="https://stratifyplan.com/daily" style="text-decoration: none; color: #555;">Daily Planner</a></strong> &middot; <a href="https://stratifyplan.com/about" style="text-decoration: none; color: #555;">About</a> &middot; <a href="https://stratifyplan.com/privacy" style="text-decoration: none; color: #555;">Privacy</a>
   </footer>
 
-  <script>
+ <script>
     const form = document.getElementById("planner-form");
     const input = document.getElementById("goal-input");
+    const honeypot = document.getElementById("website"); // 🕷️ Honeypot field
     const preview = document.getElementById("preview");
     const downloadBtn = document.getElementById("download-btn");
     const printBtn = document.getElementById("print-btn");
@@ -179,6 +185,7 @@
 
     async function generatePlan() {
       const goal = input.value.trim();
+      const website = honeypot.value.trim(); // 🕷️ Honeypot value
       if (!goal) return;
 
       preview.style.display = "block";
@@ -187,7 +194,7 @@
       const res = await fetch("/generate_weekly", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal })
+        body: JSON.stringify({ goal, website })
       });
 
       const data = await res.json();
@@ -201,7 +208,7 @@
         output += "——————\n";
       });
       output += `\n💬 Affirmation of the Week\n\n${data.affirmation}\n`;
-      output += "Built with precision by Stratify – Tactical Planning, Simplified.";
+      output += "Built by StratifyPlan.com – The AI Planner That Doesn’t Flinch.";
 
       preview.textContent = output;
       downloadBtn.style.display = "inline-block";
@@ -223,10 +230,11 @@
 
     downloadBtn.addEventListener("click", async () => {
       const goal = input.value.trim();
+      const website = honeypot.value.trim(); // 🕷️ Honeypot value
       const res = await fetch("/generate_weekly", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal, export: true })
+        body: JSON.stringify({ goal, export: true, website })
       });
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
@@ -239,6 +247,7 @@
 
     printBtn.addEventListener("click", () => window.print());
     tryAgainBtn.addEventListener("click", () => generatePlan());
-  </script>
+</script>
+
 </body>
 </html>

@@ -46,6 +46,11 @@ def privacy():
 @app.route("/generate_daily", methods=["POST"])
 def generate_daily():
     data = request.json
+
+    # 🕷️ Honeypot spam check
+    if data.get("website"):  # bot filled in the honeypot field
+        return jsonify({"error": "Spam detected"}), 400
+
     goal = data.get("goal")
     export = data.get("export", False)
 
@@ -124,7 +129,7 @@ Goal: {goal}
 
     doc.add_paragraph("\n\U0001F4AC Affirmation of the Day:", style='TightList')
     doc.add_paragraph(affirmation, style='TightList')
-    doc.add_paragraph("\nBuilt with precision by Stratify – Tactical Planning, Simplified.").runs[0].font.size = Pt(9)
+    doc.add_paragraph("\nCrush Your Goals with StratifyPlan.com – Tap In.").runs[0].font.size = Pt(9)
 
     file_stream = BytesIO()
     doc.save(file_stream)
@@ -216,7 +221,7 @@ Goal: {goal}
 
     doc.add_paragraph("\n\U0001F4AC Affirmation of the Week:", style='TightList')
     doc.add_paragraph(affirmation, style='TightList')
-    doc.add_paragraph("\nBuilt with precision by Stratify – Tactical Planning, Simplified.").runs[0].font.size = Pt(9)
+    doc.add_paragraph("\nBuilt by StratifyPlan.com – The AI Planner That Doesn’t Flinch.").runs[0].font.size = Pt(9)
 
     file_stream = BytesIO()
     doc.save(file_stream)
