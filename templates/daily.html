@@ -4,6 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Stratify Daily is your tactical to-do list generator. Enter one goal, and get a focused, printable action plan broken into clear, bite-sized tasks.">
+<!-- Standard Favicon -->
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+<!-- PNG Icons (for browsers that prefer PNG) -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+
+<!-- Web Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stratifyplan.com/daily">
+<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
+<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
+<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stratifyplan.com/daily">
+<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
+<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
+<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stratifyplan.com/daily">
+<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
+<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
+<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stratifyplan.com/daily">
+<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
+<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
+<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
 
   <title>Stratify Daily To-Do List Planner</title>
   <style>
@@ -106,7 +143,7 @@
 <body>
 
   <div style="text-align: center; margin-bottom: 1rem;">
-    <img src="https://opaltrail.com/stratify-logo.png" alt="Stratify - Strategic To-Do Planning" style="max-width: 300px; width: 100%; height: auto;" />
+    <img src="{{ url_for('static', filename='stratify-logo.png') }}" alt="Stratify - Strategic To-Do Planning" style="max-width: 300px; width: 100%; height: auto;" />
   </div>
 
   <!-- <h1>🧠 Stratify Daily</h1> -->
@@ -128,7 +165,7 @@
   <div id="preview" style="display: none;"></div>
 
   <footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
-  &copy; 2025 Stratify &middot; <strong><a href="https://stratify.opaltrail.com/" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot; <a href="https://opaltrail.com/about-stratify/" style="text-decoration: none; color: #555;">About</a> &middot; <a href="https://opaltrail.com/stratify-privacy/" style="text-decoration: none; color: #555;">Privacy</a>
+  &copy; 2025 Stratify &middot; <strong><a href="https://stratifyplan.com/" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot; <a href="https://opaltrail.com/about-stratify/" style="text-decoration: none; color: #555;">About</a> &middot; <a href="https://opaltrail.com/stratify-privacy/" style="text-decoration: none; color: #555;">Privacy</a>
   </footer>
 
 
