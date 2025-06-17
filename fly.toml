@@ -2,6 +2,10 @@ app = "stratify"  # change this to match your Fly.io app name
 
 [build]
   # uses default buildpack unless Dockerfile exists
+  buildpacks = ["paketo-buildpacks/python"]
+  [build.env]
+    BP_PYTHON_VERSION = "3.11.x"
+
 
 [env]
   PORT = "8080"
