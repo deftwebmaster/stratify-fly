@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for stratify-patient-surf-4418 on 2025-06-17T07:56:28-05:00
+# fly.toml app configuration file generated for stratify-patient-surf-4418 on 2025-06-17T08:02:02-05:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,10 +7,17 @@ app = 'stratify-patient-surf-4418'
 primary_region = 'dfw'
 
 [build]
-  buildpacks = ['paketo-buildpacks/python']
 
 [env]
   PORT = '8080'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[services]]
   protocol = 'tcp'
