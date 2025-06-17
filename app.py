@@ -61,12 +61,16 @@ Break the following goal into 3–5 clearly labeled objectives. Each objective m
 
 Under each objective, list 2–4 small, specific, and actionable tasks that:
 - Can be done in under an hour
+- Directly contribute to completing the objective
 - Are practical, not vague
-- Move the person measurably closer to success
 
-Do NOT include generic fluff like “Do research” or “Work on project.” Each task must have a clear purpose and action.
+Tasks must be:
+- Clear, specific, and under one hour to complete
+- Outcome-driven: each task should produce a visible or measurable result
+- Free of fluff — ban all generic tasks like “research,” “plan,” “work on,” “review,” or “brainstorm.”
+- Instead, every task must include a clear action, an object, and a method (e.g., “Find 3 blog titles using Google Trends” instead of “research blog ideas”)
 
-Format exactly like this (with bold objective titles):
+Use this exact format (with bold objective titles):
 
 Objective: Build Landing Page
 - Choose a landing page builder (e.g., Carrd, Webflow, etc.)
@@ -76,6 +80,7 @@ Objective: Build Landing Page
 
 Goal: {goal}
 """
+
 
 
     response = client.chat.completions.create(
