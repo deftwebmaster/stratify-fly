@@ -55,17 +55,28 @@ def generate_daily():
     export = data.get("export", False)
 
     prompt = f"""
-Break this goal into 3–5 labeled objectives. Under each, list 2–4 small, clearly written tasks to complete.
-Do not number or label the tasks. Do not include the phrase "Task A" etc.
-Bold the objective titles only. Use this exact format:
+You are a tactical productivity strategist.
 
-Objective: Research Blog Topics
-- Brainstorm 10 post ideas
-- Analyze Google trends
-- Choose 2 topics to write today
+Break the following goal into 3–5 clearly labeled objectives. Each objective must be distinct and essential to accomplishing the overall goal.
+
+Under each objective, list 2–4 small, specific, and actionable tasks that:
+- Can be done in under an hour
+- Are practical, not vague
+- Move the person measurably closer to success
+
+Do NOT include generic fluff like “Do research” or “Work on project.” Each task must have a clear purpose and action.
+
+Format exactly like this (with bold objective titles):
+
+Objective: Build Landing Page
+- Choose a landing page builder (e.g., Carrd, Webflow, etc.)
+- Draft 3 headline options
+- Write 5 bullet points of benefits
+- Add a signup form that connects to MailerLite
 
 Goal: {goal}
 """
+
 
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -154,16 +165,32 @@ def generate_weekly():
     export = data.get("export", False)
 
     prompt = f"""
-Break this weekly goal into 3–5 labeled objectives. Assign them to specific days of the week (Mon–Sun).
-Each day should contain 1 objective and 2–4 small, clearly written tasks. Do not number or label the tasks.
-Format clearly like:
+You are a tactical productivity strategist.
 
-Monday – Objective: Title
-- Task
-- Task
+Break the following goal into a 7-day execution plan. Assign one clear, outcome-focused objective to each day (Monday through Sunday).
+
+Each day’s objective should:
+- Progress the goal meaningfully without overlapping with other days
+- Be distinct, sequenced logically, and outcome-based
+- Be followed by 2–4 small, specific tasks that can be completed in under an hour each
+
+Tasks must be:
+- Clear, specific, and under one hour to complete
+- Outcome-driven: each task should produce a visible or measurable result
+- Free of fluff — ban all generic tasks like “research,” “plan,” “work on,” “review,” or “brainstorm.”
+- Instead, every task must include a clear action, an object, and a method (e.g., “Find 3 blog titles using Google Trends” instead of “research blog ideas”)
+
+Use this exact format:
+
+Monday – Objective: Validate Product Idea
+- Write down 3 target audience assumptions
+- Create a one-question Google Form
+- Post it in 2 relevant online communities
+- Record 3 key takeaways from responses
 
 Goal: {goal}
 """
+
 
     response = client.chat.completions.create(
         model="gpt-4o",
