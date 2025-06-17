@@ -48,7 +48,7 @@ def generate_daily():
     data = request.json
 
     # 🕷️ Honeypot spam check
-    if data.get("website"):  # bot filled in the honeypot field
+    if data.get("website", "").strip():
         return jsonify({"error": "Spam detected"}), 400
 
     goal = data.get("goal")
@@ -145,6 +145,11 @@ Goal: {goal}
 @app.route("/generate_weekly", methods=["POST"])
 def generate_weekly():
     data = request.json
+
+    # 🕷️ Honeypot spam check — only triggers if the field is non-empty
+    if data.get("website", "").strip():
+        return jsonify({"error": "Spam detected"}), 400
+
     goal = data.get("goal")
     export = data.get("export", False)
 
@@ -166,6 +171,8 @@ Goal: {goal}
     )
 
     breakdown = response.choices[0].message.content.strip()
+    
+    # Continue your parsing/export/response logic here
 
     weekly_plan = []
     current_day = None
