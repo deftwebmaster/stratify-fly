@@ -1,19 +1,30 @@
-app = "stratify"  # ← replace with your actual Fly.io app name if different
+# fly.toml app configuration file generated for stratify-patient-surf-4418 on 2025-06-17T07:56:28-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'stratify-patient-surf-4418'
+primary_region = 'dfw'
 
 [build]
-  buildpacks = ["paketo-buildpacks/python"]
+  buildpacks = ['paketo-buildpacks/python']
 
 [env]
-  PORT = "8080"
+  PORT = '8080'
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 8080
-  protocol = "tcp"
 
   [[services.ports]]
     port = 80
-    handlers = ["http"]
+    handlers = ['http']
 
   [[services.ports]]
     port = 443
-    handlers = ["tls", "http"]
+    handlers = ['tls', 'http']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
