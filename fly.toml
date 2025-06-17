@@ -1,4 +1,4 @@
-app = "stratify"  # Replace with your actual Fly app name
+app = "stratify"  # ← replace with your actual Fly.io app name if different
 
 [build]
   buildpacks = ["paketo-buildpacks/python"]
