@@ -157,16 +157,26 @@
   text-decoration: underline;
   color: #4c1d95;
 }
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 
   </style>
 </head>
 <body>
+<h1 class="visually-hidden">Stratify – Strategic Daily & Weekly AI Planning</h1>
 
   <div style="text-align: center; margin-bottom: 1rem;">
     <img src="{{ url_for('static', filename='stratify-logo.png') }}" alt="Stratify - Strategic To-Do Planning" style="max-width: 300px; width: 100%; height: auto;" />
   </div>
 
-  <!-- <h1>🧠 Stratify Daily</h1> -->
 
   <p style="text-align: center; font-size: 1.1rem; margin-top: 20px;">Generate Strategic To-Do Lists in Seconds</p>
 
