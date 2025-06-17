@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Stratify Daily is your tactical to-do list generator. Enter one goal, and get a focused, printable action plan broken into clear, bite-sized tasks.">
+
+  <title>Stratify Daily To-Do List Planner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f9fafb;
+      color: #222;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    #planner-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    input[type="text"]:focus {
+      border-color: #4f46e5;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #4f46e5;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #3730a3;
+    }
+
+    button:disabled {
+      background-color: #a5b4fc;
+      cursor: not-allowed;
+    }
+
+    #preview {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      white-space: pre-wrap;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #preview, #preview * {
+        visibility: visible;
+      }
+      #preview {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div style="text-align: center; margin-bottom: 1rem;">
+    <img src="https://opaltrail.com/stratify-logo.png" alt="Stratify - Strategic To-Do Planning" style="max-width: 300px; width: 100%; height: auto;" />
+  </div>
+
+  <!-- <h1>🧠 Stratify Daily</h1> -->
+
+  <p style="text-align: center; font-size: 1.1rem; margin-top: 20px;">Generate Strategic To-Do Lists in Seconds</p>
+
+
+
+  <form id="planner-form">
+    <input id="goal-input" type="text" placeholder="What’s your top goal for today?" />
+    <div class="button-row">
+      <button type="submit">Generate</button>
+      <button id="download-btn" type="button" style="display: none;">Download</button>
+      <button id="print-btn" type="button" style="display: none;">Print</button>
+      <button id="try-again-btn" type="button" style="display: none;">Try Again</button>
+    </div>
+  </form>
+
+  <div id="preview" style="display: none;"></div>
+
+  <footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
+  &copy; 2025 Stratify &middot; <strong><a href="https://stratify.opaltrail.com/" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot; <a href="https://opaltrail.com/about-stratify/" style="text-decoration: none; color: #555;">About</a> &middot; <a href="https://opaltrail.com/stratify-privacy/" style="text-decoration: none; color: #555;">Privacy</a>
+  </footer>
+
+
+  <script>
+    const form = document.getElementById("planner-form");
+    const input = document.getElementById("goal-input");
+    const preview = document.getElementById("preview");
+    const downloadBtn = document.getElementById("download-btn");
+    const printBtn = document.getElementById("print-btn");
+    const tryAgainBtn = document.getElementById("try-again-btn");
+
+    async function generatePlan() {
+      const goal = input.value.trim();
+      if (!goal) return;
+
+      preview.style.display = "block";
+      preview.textContent = "Generating plan...";
+
+      const res = await fetch("/generate_daily", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal })
+      });
+
+      const data = await res.json();
+
+      let output = `🎯 Today's Goal\n\n${data.goal}\n`;
+      data.objectives.forEach(obj => {
+        output += `\n${obj.objective}\n`;
+        obj.tasks.forEach(task => {
+          output += `☐ ${task}\n`;
+        });
+        output += "——————\n";
+      });
+      output += `\n💬 Affirmation of the Day\n\n${data.affirmation}\n`;
+      output += "Built with precision by Stratify – Tactical Planning, Simplified.";
+
+      preview.textContent = output;
+      downloadBtn.style.display = "inline-block";
+      printBtn.style.display = "inline-block";
+      tryAgainBtn.style.display = "inline-block";
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      generatePlan();
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        generatePlan();
+      }
+    });
+
+    downloadBtn.addEventListener("click", async () => {
+      const goal = input.value.trim();
+      const res = await fetch("/generate_daily", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal, export: true })
+      });
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Stratify_Daily_Plan.docx";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+    printBtn.addEventListener("click", () => window.print());
+    tryAgainBtn.addEventListener("click", () => generatePlan());
+  </script>
+</body>
+</html>
