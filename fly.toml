@@ -1,11 +1,7 @@
-app = "stratify"  # change this to match your Fly.io app name
+app = "stratify"  # Replace with your actual Fly app name
 
 [build]
-  # uses default buildpack unless Dockerfile exists
   buildpacks = ["paketo-buildpacks/python"]
-  [build.env]
-    BP_PYTHON_VERSION = "3.11.x"
-
 
 [env]
   PORT = "8080"
@@ -15,9 +11,9 @@ app = "stratify"  # change this to match your Fly.io app name
   protocol = "tcp"
 
   [[services.ports]]
-    handlers = ["http"]
     port = 80
+    handlers = ["http"]
 
   [[services.ports]]
-    handlers = ["tls", "http"]
     port = 443
+    handlers = ["tls", "http"]
