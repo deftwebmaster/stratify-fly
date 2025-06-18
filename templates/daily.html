@@ -183,7 +183,10 @@
 
 
   <form id="planner-form">
-    <input id="goal-input" type="text" placeholder="What’s your top goal for today?" />
+    <input id="goal-input" type="text" maxlength="300" placeholder="What’s your top goal for today?" />
+    <small id="char-count" style="margin-top: 0.25rem; font-size: 0.85rem; color: #666;">
+  0 / 300 characters
+</small>
     <div class="button-row">
       <button type="submit">Generate</button>
       <button id="download-btn" type="button" style="display: none;">Download</button>
@@ -209,6 +212,10 @@
   <script>
     const form = document.getElementById("planner-form");
     const input = document.getElementById("goal-input");
+    const charCount = document.getElementById("char-count");
+    input.addEventListener("input", () => {
+        charCount.textContent = `${input.value.length} / 300 characters`;
+    });
     const honeypot = document.getElementById("website"); // 🕷️ Honeypot field
     const preview = document.getElementById("preview");
     const downloadBtn = document.getElementById("download-btn");
