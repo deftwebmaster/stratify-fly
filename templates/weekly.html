@@ -276,11 +276,15 @@
   }
 
 
+const urlParams = new URLSearchParams(window.location.search);
+const prefillGoal = urlParams.get("goal");
+
 if (prefillGoal) {
   input.value = decodeURIComponent(prefillGoal);
   charCount.textContent = `${input.value.length} / 300 characters`;
   generatePlan();
 }
+
 
 
     form.addEventListener("submit", e => {
