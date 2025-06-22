@@ -14,6 +14,8 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
+from flask import send_from_directory
+
 affirmations = [
     "Action is the foundational key to all success. – Pablo Picasso",
     "Small steps lead to big results.",
@@ -42,6 +44,14 @@ def about():
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
+
+@app.route("/robots.txt")
+def robots():
+    return send_from_directory("static", "robots.txt")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory("static", "sitemap.xml")
 
 @app.route("/generate_daily", methods=["POST"])
 def generate_daily():
