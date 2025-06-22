@@ -5,30 +5,46 @@
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+
 <url>
   <loc>https://stratifyplan.com/</loc>
-  <lastmod>2025-06-22T11:43:23+00:00</lastmod>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://stratifyplan.com/daily</loc>
-  <lastmod>2025-06-22T11:43:23+00:00</lastmod>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://stratifyplan.com/mission</loc>
-  <lastmod>2025-06-22T11:43:23+00:00</lastmod>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://stratifyplan.com/about</loc>
-  <lastmod>2025-06-22T11:43:23+00:00</lastmod>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://stratifyplan.com/privacy</loc>
-  <lastmod>2025-06-22T11:43:23+00:00</lastmod>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://stratifyplan.com/article/clarity</loc>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://stratifyplan.com/article/break-down-big-goals</loc>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://stratifyplan.com/article/weekly-mission-brief</loc>
+  <lastmod>2025-06-22T17:26:02+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 
 
