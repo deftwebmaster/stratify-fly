@@ -228,51 +228,6 @@
     const preview = document.getElementById("preview");
     const downloadBtn = document.getElementById("download-btn");
     const printBtn = document.getElementById("print-btn");
-    const tryAgainBtn = document.getElementById("try-again-btn");
-
-// Prefill goal from URL parameter (if present)
-const urlParams = new URLSearchParams(window.location.search);
-const prefillGoal = urlParams.get("goal");
-if (prefillGoal) {
-  input.value = decodeURIComponent(prefillGoal);
-  charCount.textContent = `${input.value.length} / 300 characters`;
-}
-if (prefillGoal) {
-  generatePlan();
-}
-
-
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      generatePlan();
-    });
-
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        generatePlan();
-      }
-    });
-
-    downloadBtn.addEventListener("click", async () => {
-      const goal = input.value.trim();
-      const website = honeypot.value.trim(); // 🕷️ Honeypot value
-      const res = await fetch("/generate_weekly", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal, export: true, website })
-      });
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Stratify_Weekly_Plan.docx";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
-
-    printBtn.addEventListener("click", () => window.print());
-    tryAgainBtn.addEventListener("click", () => generatePlan());
 
   const affiliateBox = document.getElementById("affiliate-spot");
 
@@ -319,6 +274,45 @@ if (prefillGoal) {
     rotateSuggestion(); // Show first suggestion immediately
     setInterval(rotateSuggestion, 15000); // Rotate every 15s
   }
+
+
+if (prefillGoal) {
+  input.value = decodeURIComponent(prefillGoal);
+  charCount.textContent = `${input.value.length} / 300 characters`;
+  generatePlan();
+}
+
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      generatePlan();
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        generatePlan();
+      }
+    });
+
+    downloadBtn.addEventListener("click", async () => {
+      const goal = input.value.trim();
+      const website = honeypot.value.trim(); // 🕷️ Honeypot value
+      const res = await fetch("/generate_weekly", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal, export: true, website })
+      });
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Stratify_Weekly_Plan.docx";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+    printBtn.addEventListener("click", () => window.print());
 
   // Call after plan is generated
 async function generatePlan() {
