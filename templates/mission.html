@@ -1,0 +1,291 @@
+<!-- /templates/mission.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weekly Mission Briefs: Turn Goals into a Tactical Plan | Stratify</title>
+<meta name="description" content="Drop in your weekly goals — get back a clear, tactical mission brief with objectives and tasks mapped out for each day.">
+
+<!-- Standard Favicon -->
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+<!-- PNG Icons (for browsers that prefer PNG) -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+
+<!-- Web Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stratifyplan.com/mission">
+<meta property="og:title" content="StratifyPlan – Weekly Mission Briefs">
+<meta property="og:description" content="Turn weekly goals into a sharp, tactical mission plan. Just type your goals — Stratify does the rest.">
+<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://stratifyplan.com/mission">
+<meta name="twitter:title" content="StratifyPlan – Weekly Mission Briefs">
+<meta name="twitter:description" content="Turn weekly goals into a sharp, tactical mission plan. Just type your goals — Stratify does the rest.">
+<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f9fafb;
+      color: #222;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subheading {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    textarea {
+      width: 70vw;
+      max-width: 700px;
+      height: 180px;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #4f46e5;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #3730a3;
+    }
+
+    #brief-output {
+      white-space: pre-wrap;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      max-width: 700px;
+      width: 100%;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #brief-output, #brief-output * {
+        visibility: visible;
+      }
+      #brief-output {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: none;
+      }
+    }
+
+    .mission-output p {
+      margin: 0.3rem 0;
+      line-height: 1.3;
+    }
+
+    #bmac-container {
+      display: none;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #bmac-container a {
+      background: #FFDD00;
+      color: #000;
+      padding: 0.6rem 1.2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: inherit;
+      display: inline-block;
+    }
+.mission-footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.mission-footer-buttons a {
+  padding: 0.4rem 1rem;       /* ↓ reduced vertical padding */
+  font-size: 0.9rem;          /* ↓ slightly smaller font */
+  font-weight: 500;           /* optional: reduce boldness */
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  font-family: inherit;
+}
+
+
+.send-weekly-btn {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.send-weekly-btn:hover {
+  background-color: #3730a3;
+}
+
+.bmac-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  background-color: #FFDD00;
+  color: #000;
+  text-decoration: none;
+  font-family: inherit;
+  line-height: 1.2;
+  transition: background 0.2s ease;
+}
+
+.bmac-btn:hover {
+  background-color: #e6c700;
+}
+
+
+#mission-footer-blurb {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #555;
+}
+
+  </style>
+</head>
+<body>
+
+  <div style="text-align: center;">
+    <img src="{{ url_for('static', filename='stratify-logo.png') }}" alt="Stratify - Mission Brief Generator" style="max-width: 300px; width: 100%; height: auto;" />
+  </div>
+
+<h1>Weekly Mission Brief</h1>
+<p class="subheading">Turn Chaos into a Tactical Weekly Plan</p>
+<p style="margin-top: -0.5rem; color: #444; font-size: 0.95rem; max-width: 700px; text-align: center;">
+  Just drop in your goals. I’ll translate them into a clear, strategic mission — fast and focused.
+</p>
+
+
+  <form id="mission-form">
+    <textarea id="goals-input" placeholder="Write your 2–3 weekly goals — messy is fine. I’ll turn them into a tactical mission plan."></textarea>
+
+<div class="button-row">
+  <button type="submit">Generate Mission Brief</button>
+  <button id="print-brief" type="button" style="display: none;">Print</button>
+  <a id="bmac-btn" href="https://www.buymeacoffee.com/deftdev" target="_blank" class="bmac-btn" style="display: none;">☕ Buy Me a Coffee</a>
+</div>
+
+  </form>
+
+  <div id="brief-output" style="display: none;"></div>
+
+
+<!-- <div id="mission-footer" class="mission-footer-buttons" style="display:none;">
+  <a id="weekly-link" href="#" target="_blank" class="send-weekly-btn">➤ Send to Weekly Planner</a>
+</div> -->
+
+<div id="mission-footer-blurb" style="display:none;">
+  Everything I build is free to use, crafted with care, and always evolving.<br />  
+  If Stratify helped you out, <strong><a href="https://buymeacoffee.com/deftdev" target="_blank" style="color: #4f46e5; text-decoration: none;">buying me a coffee</a></strong> helps me keep creating — and stay caffeinated while I do it. ☕
+</div>
+
+
+<footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
+  &copy; 2025 Stratify &middot;
+  <strong><a href="https://stratifyplan.com/" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot;
+  <a href="https://stratifyplan.com/daily" style="text-decoration: none; color: #555;">Daily Planner</a> &middot;
+  <a href="https://stratifyplan.com/about" style="text-decoration: none; color: #555;">About</a> &middot;
+  <a href="https://stratifyplan.com/privacy" style="text-decoration: none; color: #555;">Privacy</a>
+</footer>
+
+
+<script>
+  const form = document.getElementById("mission-form");
+  const textarea = document.getElementById("goals-input");
+  const output = document.getElementById("brief-output");
+  const printBtn = document.getElementById("print-brief");
+  const missionFooter = document.getElementById("mission-footer");
+  const weeklyLink = document.getElementById("weekly-link");
+  const bmacBtn = document.getElementById("bmac-btn");
+  const bmacBlurb = document.getElementById("mission-footer-blurb");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const goals = textarea.value.trim();
+    if (!goals) return;
+
+    output.style.display = "block";
+    output.textContent = "🧠 Interpreting chaos into clarity...";
+
+    try {
+      const res = await fetch("/mission", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goals })
+      });
+
+      const data = await res.json();
+      output.innerHTML = `<h2>🧭 Mission Brief</h2><div>${data.brief_html}</div>`;
+
+      const match = data.brief_html.match(/\/\?goal=([^"]+)/);
+      if (match && weeklyLink) {
+        weeklyLink.href = `/?goal=${match[1]}`;
+      }
+
+      // Show action buttons and blurb
+      printBtn.style.display = "inline-block";
+      bmacBtn.style.display = "inline-block";
+      if (missionFooter) missionFooter.style.display = "block";
+      if (bmacBlurb) bmacBlurb.style.display = "block";
+
+    } catch (error) {
+      output.innerHTML = "<p style='color:red;'>Something went wrong. Please try again.</p>";
+    }
+  });
+
+  printBtn.addEventListener("click", () => window.print());
+</script>
+
+
+</body>
+</html>

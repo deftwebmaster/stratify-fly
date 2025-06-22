@@ -4,7 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Read the privacy policy for Stratify, your intelligent planner for achieving more with less stress.">
-  <title>Privacy Policy – Stratify</title>
+  
+  <!-- Standard Favicon -->
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+<!-- PNG Icons (for browsers that prefer PNG) -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+
+<!-- Web Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+<title>Privacy Policy – Stratify</title>
+
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -76,21 +89,26 @@
 </head>
 <body>
   <div class="container">
-    <h1>Privacy Policy</h1>
+<h1>Privacy Policy</h1>
 
-    <p>I take your privacy seriously. Stratify doesn’t collect or store any personal data. Everything you type stays on your device unless you explicitly export a file or share something.</p>
+<p>I take your privacy seriously. Stratify doesn’t collect or store any personal data. Everything you type stays on your device unless you choose to export a file or share a result.</p>
 
-    <h2>Local Storage</h2>
-    <p>Stratify may use your browser's local storage to save planner inputs during your session, but nothing is ever sent to a server.</p>
+<h2>Local Storage</h2>
+<p>Stratify may use your browser’s local storage to temporarily save planner inputs. This helps preserve your session data while you’re using the tool. Nothing is sent to a server.</p>
 
-    <h2>Third-Party APIs</h2>
-    <p>Stratify uses the OpenAI API to generate planning content. Only the text you submit is sent to OpenAI, and that data is not stored or used to train their models according to their API data policy.</p>
+<h2>AI Content Generation</h2>
+<p>Stratify uses the OpenAI API to generate planning content. Only the text you submit is sent to OpenAI, and according to their API policy, it is <strong>not stored</strong> or used to train their models.</p>
 
-    <h2>No Tracking or Ads</h2>
-    <p>There are no trackers, cookies, ads, or analytics scripts running on Stratify. Just planning tools—nothing else.</p>
+<h2>No Tracking or Analytics</h2>
+<p>There are <strong>no trackers, ads, or analytics scripts</strong> on Stratify. I don’t use cookies, and I don’t log what you do.</p>
 
-    <h2>Questions?</h2>
-    <p>If you have any questions or concerns, feel free to email me directly at stratify(at)fastmail.com.</p>
+<h2>Affiliate Links + External Buttons</h2>
+<p>Some pages (like the blog) may include affiliate links. These help support the site, but they never affect your experience or the recommendations shown.</p>
+<p>You may also see <strong>Buy Me a Coffee</strong> buttons, which link to an external site (buymeacoffee.com). Clicking those may be subject to their own privacy policies.</p>
+
+<h2>Questions?</h2>
+<p>I believe in clarity and simplicity. If you have any concerns or feedback, just email me:<br>
+📬 <strong>stratify(at)fastmail.com</strong></p>
 
     <div class="back-button">
       <a href="https://stratifyplan.com/">← Go to Weekly Planner</a>

@@ -1,3 +1,4 @@
+from urllib.parse import quote
 from flask import Flask, request, send_file, render_template, jsonify
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -8,6 +9,7 @@ from datetime import date
 import random
 import os
 import re
+import markdown
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -31,7 +33,8 @@ affirmations = [
 
 @app.route("/")
 def home():
-    return render_template("weekly.html")
+    prefill_goal = request.args.get("goal", "")
+    return render_template("weekly.html", prefill_goal=prefill_goal)
 
 @app.route("/daily")
 def daily():
@@ -40,6 +43,18 @@ def daily():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route("/article/clarity")
+def clarity_article():
+    return render_template("clarity.html")
+
+@app.route("/article/weekly-mission-brief")
+def weekly_mission_brief_article():
+    return render_template("weekly-mission-brief.html")
+
+@app.route("/article/break-down-big-goals")
+def article_break_down_goals():
+    return render_template("break-down.html")
 
 @app.route('/privacy')
 def privacy():
@@ -283,6 +298,60 @@ Goal: {goal}
         mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
+
+from markdown import markdown
+from urllib.parse import quote
+
+@app.route("/mission", methods=["GET", "POST"])
+def mission():
+    if request.method == "POST":
+        goals = request.json.get("goals", "").strip()
+        if not goals:
+            return jsonify({
+                "brief_html": "<p style='color:red;'>No input provided.</p>"
+            })
+
+        system_prompt = (
+            "You are a strategic planner AI that transforms messy weekly goal input "
+            "into clear, punchy 'Mission Briefs.'\n\n"
+            "Use this format for each:\n\n"
+            "**Objective Title –** (bold, creative, 1 line)\n"
+            "Short mission statement (1–2 lines).\n"
+            "Optional third line: why this matters.\n\n"
+            "Output a maximum of three briefings.\n"
+            "Style: tactical, sharp, cinematic."
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": goals}
+            ]
+        )
+
+        markdown_output = response.choices[0].message.content.strip()
+
+        # Extract first mission title to generate URL
+        linkified = ""
+        for line in markdown_output.split("\n"):
+            if line.startswith("**"):
+                linkified = line.strip("*– ").strip()
+                break
+
+        if not linkified:
+            linkified = "My Mission"
+
+
+        # Convert markdown to HTML and append link
+        html_content = f'<div class="mission-output">{markdown(markdown_output)}</div>'
+
+
+        return jsonify({"brief_html": html_content})
+
+    return render_template("mission.html")
+
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5050))
     app.run(host="0.0.0.0", port=port)
