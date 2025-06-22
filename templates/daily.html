@@ -28,20 +28,6 @@
 <meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
 <meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://stratifyplan.com/daily">
-<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
-<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
-<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://stratifyplan.com/daily">
-<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
-<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your day with ruthless focus.">
-<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
-
   <title>Get a Tactical To-Do List in Seconds - Stratify</title>
   <style>
     body {
@@ -168,6 +154,20 @@
   border: 0;
 }
 
+.bmac-style {
+  background-color: #ffdd00 !important;
+  color: #000 !important;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.bmac-style:hover {
+  background-color: #ffe657 !important;
+}
+
   </style>
 </head>
 <body>
@@ -187,12 +187,15 @@
     <small id="char-count" style="margin-top: 0.25rem; font-size: 0.85rem; color: #666;">
   0 / 300 characters
 </small>
-    <div class="button-row">
-      <button type="submit">Generate</button>
-      <button id="download-btn" type="button" style="display: none;">Download</button>
-      <button id="print-btn" type="button" style="display: none;">Print</button>
-      <button id="try-again-btn" type="button" style="display: none;">Try Again</button>
-    </div>
+
+<div class="button-row">
+  <button type="submit">Generate</button>
+  <button id="download-btn" type="button" style="display: none;">Download</button>
+  <button id="print-btn" type="button" style="display: none;">Print</button>
+  <button id="bmac-btn" type="button" style="display:none; background: #ffdd00; color: #000;">Buy Me a Coffee</button>
+</div>
+
+
 <div style="position: absolute; left: -9999px;">
   <label for="website">Leave this field empty</label>
   <input type="text" name="website" id="website" autocomplete="off">
@@ -202,11 +205,14 @@
 
 <div id="affiliate-spot" class="affiliate-box" style="display: none;"></div><br />
   <div id="preview" style="display: none;"></div>
-<div id="affiliate-spot" class="affiliate-box" style="display: none;"></div>
+
+<div id="bmac-blurb" style="display: none; font-size: 0.9rem; margin-top: 1.5rem; max-width: 700px; text-align: center; color: #444;">
+  If Stratify helped you plan your day, consider <strong><a href="https://buymeacoffee.com/deftdev" target="_blank" style="color: #000; font-weight: bold;">buying me a coffee</a></strong> so I can keep improving it. ☕
+</div>
 
 <footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
   &copy; 2025 Stratify &middot;
-  <strong><a href="https://stratifyplan.com/weekly" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot;
+  <strong><a href="https://stratifyplan.com/" style="text-decoration: none; color: #555;">Weekly Planner</a></strong> &middot;
   <a href="https://stratifyplan.com/mission" style="text-decoration: none; color: #555;">Weekly Mission Briefs</a> &middot;
   <a href="https://stratifyplan.com/about" style="text-decoration: none; color: #555;">About</a> &middot;
   <a href="https://stratifyplan.com/privacy" style="text-decoration: none; color: #555;">Privacy</a>
@@ -214,86 +220,53 @@
 
 
 
-  <script>
-    const form = document.getElementById("planner-form");
-    const input = document.getElementById("goal-input");
-    const charCount = document.getElementById("char-count");
-    input.addEventListener("input", () => {
-        charCount.textContent = `${input.value.length} / 300 characters`;
-    });
-    const honeypot = document.getElementById("website"); // 🕷️ Honeypot field
-    const preview = document.getElementById("preview");
-    const downloadBtn = document.getElementById("download-btn");
-    const printBtn = document.getElementById("print-btn");
-    const tryAgainBtn = document.getElementById("try-again-btn");
+<script>
+  const form = document.getElementById("planner-form");
+  const input = document.getElementById("goal-input");
+  const charCount = document.getElementById("char-count");
+  const honeypot = document.getElementById("website");
+  const preview = document.getElementById("preview");
+  const downloadBtn = document.getElementById("download-btn");
+  const printBtn = document.getElementById("print-btn");
+  const bmacBtn = document.getElementById("bmac-btn");
+  const bmacBlurb = document.getElementById("bmac-blurb");
 
-    async function generatePlan() {
-      const goal = input.value.trim();
-      const website = honeypot.value.trim(); // 🕷️ Honeypot value
-      if (!goal) return;
+  input.addEventListener("input", () => {
+    charCount.textContent = `${input.value.length} / 300 characters`;
+  });
 
-      preview.style.display = "block";
-      preview.textContent = "Generating plan...";
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    generatePlan();
+  });
 
-      const res = await fetch("/generate_daily", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal, website })
-      });
-
-      const data = await res.json();
-
-      let output = `🎯 Today's Goal\n\n${data.goal}\n`;
-      data.objectives.forEach(obj => {
-        output += `\n${obj.objective}\n`;
-        obj.tasks.forEach(task => {
-          output += `☐ ${task}\n`;
-        });
-        output += "——————\n";
-      });
-      output += `\n💬 Affirmation of the Day\n\n${data.affirmation}\n`;
-      output += "Crush Your Goals with StratifyPlan.com – Tap In.";
-
-      preview.textContent = output;
-      downloadBtn.style.display = "inline-block";
-      printBtn.style.display = "inline-block";
-      tryAgainBtn.style.display = "inline-block";
-    }
-
-    form.addEventListener("submit", e => {
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
       e.preventDefault();
       generatePlan();
-    });
+    }
+  });
 
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        generatePlan();
-      }
+  downloadBtn.addEventListener("click", async () => {
+    const goal = input.value.trim();
+    const website = honeypot.value.trim();
+    const res = await fetch("/generate_daily", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ goal, export: true, website })
     });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Stratify_Daily_Plan.docx";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
 
-    downloadBtn.addEventListener("click", async () => {
-      const goal = input.value.trim();
-      const website = honeypot.value.trim(); // 🕷️ Honeypot value
-      const res = await fetch("/generate_daily", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal, export: true, website })
-      });
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Stratify_Daily_Plan.docx";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
-
-    printBtn.addEventListener("click", () => window.print());
-    tryAgainBtn.addEventListener("click", () => generatePlan());
+  printBtn.addEventListener("click", () => window.print());
 
   const affiliateBox = document.getElementById("affiliate-spot");
-
   const suggestions = [
     {
       text: "📘 <strong>Atomic Habits</strong> – Build better habits one step at a time with this ultra-practical system by James Clear.",
@@ -334,11 +307,10 @@
 
   function showAffiliateBox() {
     affiliateBox.style.display = "block";
-    rotateSuggestion(); // Show first suggestion immediately
-    setInterval(rotateSuggestion, 15000); // Rotate every 15s
+    rotateSuggestion();
+    setInterval(rotateSuggestion, 15000);
   }
 
-  // Call after plan is generated
   async function generatePlan() {
     const goal = input.value.trim();
     const website = honeypot.value.trim();
@@ -347,7 +319,7 @@
     preview.style.display = "block";
     preview.textContent = "Generating plan...";
 
-    const res = await fetch("/generate_weekly", {
+    const res = await fetch("/generate_daily", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ goal, website })
@@ -355,26 +327,26 @@
 
     const data = await res.json();
 
-    let output = `🎯 Weekly Goal\n\n${data.goal}\n`;
-    data.weekly_plan.forEach(day => {
-      output += `\n${day.day} – ${day.objective}\n`;
-      day.tasks.forEach(task => {
+    let output = `🎯 Today's Goal\n\n${data.goal}\n`;
+    data.objectives.forEach(obj => {
+      output += `\n${obj.objective}\n`;
+      obj.tasks.forEach(task => {
         output += `☐ ${task}\n`;
       });
       output += "——————\n";
     });
-    output += `\n💬 Affirmation of the Week\n\n${data.affirmation}\n`;
-    output += "Built by StratifyPlan.com – The AI Planner That Doesn’t Flinch.";
+    output += `\n💬 Affirmation of the Day\n\n${data.affirmation}\n`;
+    output += "Crush Your Goals with StratifyPlan.com – Tap In.";
 
     preview.textContent = output;
     downloadBtn.style.display = "inline-block";
     printBtn.style.display = "inline-block";
-    tryAgainBtn.style.display = "inline-block";
-
-    showAffiliateBox(); // Show and start rotation after plan is ready
+    bmacBtn.style.display = "inline-block";
+    bmacBlurb.style.display = "block";
+    showAffiliateBox();
   }
-
 </script>
+
 
 </body>
 </html>

@@ -28,21 +28,6 @@
 <meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
 <meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://stratifyplan.com/">
-<meta property="og:title" content="StratifyPlan – Tactical Goal Execution">
-<meta property="og:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
-<meta property="og:image" content="https://stratifyplan.com/static/social-card.png">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://stratifyplan.com/">
-<meta name="twitter:title" content="StratifyPlan – Tactical Goal Execution">
-<meta name="twitter:description" content="Break goals into clear objectives and smart tasks. Plan your week with ruthless focus.">
-<meta name="twitter:image" content="https://stratifyplan.com/static/social-card.png">
-
-
   <title>Dominate Your Week – Free AI-Powered Planner by Stratify</title>
   <style>
     body {
@@ -169,6 +154,21 @@
   border: 0;
 }
 
+.bmac-style {
+  background-color: #ffdd00 !important;
+  color: #000 !important;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.bmac-style:hover {
+  background-color: #ffe657 !important;
+}
+
+
   </style>
 </head>
 <body>
@@ -191,7 +191,7 @@
       <button type="submit">Generate</button>
       <button id="download-btn" type="button" style="display: none;">Download</button>
       <button id="print-btn" type="button" style="display: none;">Print</button>
-      <button id="try-again-btn" type="button" style="display: none;">Try Again</button>
+      <a id="bmac-btn" href="https://buymeacoffee.com/deftdev" rel="noopener noreferrer" target="_blank" style="display: none;" class="button bmac-style">☕ Buy Me a Coffee</a>
     </div>
 
 <div style="position: absolute; left: -9999px;">
@@ -203,8 +203,10 @@
 
 <div id="affiliate-spot" class="affiliate-box" style="display: none;"></div><br />
   <div id="preview" style="display: none;"></div>
-<div id="affiliate-spot" class="affiliate-box" style="display: none;"></div>
 
+<div id="bmac-blurb" style="display: none; font-size: 0.9rem; margin-top: 1.5rem; max-width: 700px; text-align: center; color: #444;">
+  If Stratify helped you plan your week, consider <strong><a href="https://buymeacoffee.com/deftdev" rel="noopener noreferrer" target="_blank" style="color: #000; font-weight: bold;">buying me a coffee</a></strong> so I can keep improving it. ☕
+</div>
 
 <footer style="text-align: center; font-family: inherit; font-size: 14px; margin-top: 40px; color: #555;">
   &copy; 2025 Stratify &middot;
@@ -239,39 +241,6 @@ if (prefillGoal) {
   generatePlan();
 }
 
-
-    async function generatePlan() {
-      const goal = input.value.trim();
-      const website = honeypot.value.trim(); // 🕷️ Honeypot value
-      if (!goal) return;
-
-      preview.style.display = "block";
-      preview.textContent = "Generating plan...";
-
-      const res = await fetch("/generate_weekly", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ goal, website })
-      });
-
-      const data = await res.json();
-
-      let output = `🎯 Weekly Goal\n\n${data.goal}\n`;
-      data.weekly_plan.forEach(day => {
-        output += `\n${day.day} – ${day.objective}\n`;
-        day.tasks.forEach(task => {
-          output += `☐ ${task}\n`;
-        });
-        output += "——————\n";
-      });
-      output += `\n💬 Affirmation of the Week\n\n${data.affirmation}\n`;
-      output += "Built by StratifyPlan.com – The AI Planner That Doesn’t Flinch.";
-
-      preview.textContent = output;
-      downloadBtn.style.display = "inline-block";
-      printBtn.style.display = "inline-block";
-      tryAgainBtn.style.display = "inline-block";
-    }
 
     form.addEventListener("submit", e => {
       e.preventDefault();
@@ -352,14 +321,16 @@ if (prefillGoal) {
   }
 
   // Call after plan is generated
-  async function generatePlan() {
-    const goal = input.value.trim();
-    const website = honeypot.value.trim();
-    if (!goal) return;
+async function generatePlan() {
+  const goal = input.value.trim();
+  const website = honeypot.value.trim();
+  if (!goal) return;
 
-    preview.style.display = "block";
-    preview.textContent = "Generating plan...";
+  // Show loading state
+  preview.style.display = "block";
+  preview.textContent = "Generating plan...";
 
+  try {
     const res = await fetch("/generate_weekly", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -368,6 +339,7 @@ if (prefillGoal) {
 
     const data = await res.json();
 
+    // Build the output string
     let output = `🎯 Weekly Goal\n\n${data.goal}\n`;
     data.weekly_plan.forEach(day => {
       output += `\n${day.day} – ${day.objective}\n`;
@@ -379,13 +351,21 @@ if (prefillGoal) {
     output += `\n💬 Affirmation of the Week\n\n${data.affirmation}\n`;
     output += "Built by StratifyPlan.com – The AI Planner That Doesn’t Flinch.";
 
+    // Show results
     preview.textContent = output;
     downloadBtn.style.display = "inline-block";
     printBtn.style.display = "inline-block";
-    tryAgainBtn.style.display = "inline-block";
+    document.getElementById("bmac-btn").style.display = "inline-block";
+    document.getElementById("bmac-blurb").style.display = "block";
+    showAffiliateBox();
 
-    showAffiliateBox(); // Show and start rotation after plan is ready
+  } catch (error) {
+    preview.textContent = "Something went wrong. Please try again.";
+    console.error("Error generating plan:", error);
   }
+}
+
+
 
 </script>
 
